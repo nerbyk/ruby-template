@@ -1,0 +1,10 @@
+class Event
+  attr_reader: id | nil
+  attr_reader: name
+end 
+
+module AppName
+  class Handler
+    def self.process: (event: ::Event ) -> String
+  end 
+end
