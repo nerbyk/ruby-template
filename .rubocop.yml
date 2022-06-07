@@ -1,21 +1,15 @@
-AllCops:
-  TargetRubyVersion: 2.7.5
-  Exclude:
-  - 'vendor/bundle/**/*'
-  - '.bundle/**/*'
-
-inherit_gem:
-  standard: config/base.yml
-
 require:
   - rubocop-performance
   - rubocop-rake
-  - standard
-
 
 AllCops:
-  TargetRubyVersion: 2.7.5
+  Exclude:
+    - 'vendor/**/*'
+    - '.bundle/**/*'
+    - 'Gemfile'
   SuggestExtensions: false
+  DisplayCopNames: true
+  TargetRubyVersion: 2.7
 
 Style/StringLiterals:
   EnforcedStyle: single_quotes
@@ -37,3 +31,12 @@ Layout/SpaceInLambdaLiteral:
 
 Style/OptionalArguments:
   Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: true
+
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: no_comma
+
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: no_comma
