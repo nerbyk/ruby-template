@@ -1,0 +1,31 @@
+#!/usr/bin/env ruby
+
+require 'fileutils'
+
+root_name = proc { |name| name.split('_').map(&:capitalize).join }
+
+case ARGV.length
+when 1
+  old_name = 'app_name'
+  new_name = ARGV[0]
+when 2
+  old_name = ARGV[0]
+  new_name = ARGV[1]
+else
+  raise ArgumentError, "Wrong number of arguments, expected 1 or 2, got #{ARGV.length}"
+end
+
+raise "Please provide new name in snake_case" unless new_name =~ /^[a-z0-9_]+$/
+
+new_root_name = root_name[new_name]
+old_root_name = root_name[old_name]
+
+Dir.glob("**/#{old_name}*").each do |filepath|
+  file_content = File.read(filepath)
+  new_content = file_content.gsub(old_root_name, new_root_name)
+
+  File.open(filepath, "w") {|file| file.puts new_content }
+
+  new_filename = filepath.gsub(old_name, new_name)
+  FileUtils.mv(filepath, new_filename)
+end
