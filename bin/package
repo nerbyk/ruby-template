@@ -1,8 +1,8 @@
 #!/bin/sh
 
 cd "$(dirname $0)"/..
-rm -rf dist
-rm -rf builds
+rm -rf vendor
 bundle check --path vendor/bundle > /dev/null 2>&1
-bundle config --local path 'vendor/bundle' --without development test
+bundle config set --local path 'vendor/bundle'
+bundle config set --local without 'development test'
 bundle install

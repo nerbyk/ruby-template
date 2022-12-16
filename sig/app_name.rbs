@@ -1,0 +1,5 @@
+module AppName
+  class Applicaiton
+    def self.call: -> nil
+  end
+end

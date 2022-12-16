@@ -1,0 +1,6 @@
+source "https://rubygems.org" do
+	group :test do
+	 	gem "minitest", "~> 5.15.0"
+	 	gem "minitest-reporters", "~> 1.4.3"
+	 end
+end

@@ -1,42 +1,37 @@
 require:
+  - standard/cop/block_single_line_braces
   - rubocop-performance
   - rubocop-rake
 
+inherit_gem:
+  standard: config/base.yml
+
 AllCops:
   Exclude:
-    - 'vendor/**/*'
-    - '.bundle/**/*'
+    - 'bin/*'
     - 'Gemfile'
-  SuggestExtensions: false
+    - 'gemfiles/**/*'
+    - 'vendor/**/*'
   DisplayCopNames: true
-  TargetRubyVersion: 2.7
+  SuggestExtensions: false
+  TargetRubyVersion: 3.1.3
 
-Style/StringLiterals:
-  EnforcedStyle: single_quotes
-
-Style/StringLiteralsInInterpolation:
-  EnforcedStyle: single_quotes
-
-Layout/SpaceInsideHashLiteralBraces:
-  EnforcedStyle: space
-
-Performance/RedundantMerge:
-  Enabled: false
-
-Style/SafeNavigation:
-  Enabled: false
-
-Layout/SpaceInLambdaLiteral:
-  EnforcedStyle: require_space
-
-Style/OptionalArguments:
+Standard/BlockSingleLineBraces:
   Enabled: false
 
 Style/FrozenStringLiteralComment:
   Enabled: true
 
-Style/TrailingCommaInArrayLiteral:
-  EnforcedStyleForMultiline: no_comma
+Style/HashConversion:
+  Enabled: false
 
-Style/TrailingCommaInHashLiteral:
-  EnforcedStyleForMultiline: no_comma
+Naming/FileName:
+  Exclude:
+   - '**/*.md'
+  
+Layout/ExtraSpacing:
+  ForceEqualSignAlignment: true
+
+Layout/HashAlignment:
+  EnforcedHashRocketStyle: table
+  EnforcedColonStyle: table

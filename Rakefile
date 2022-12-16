@@ -1,11 +1,13 @@
-require 'bundler/setup'
-require 'rake/testtask'
+# frozen_string_literal: true
 
 begin
-  desc 'Run all tests'
-  Rake::TestTask.new(:test) do |t|
-    t.libs << 'spec'
-    t.test_files = FileList['spec/**/*_spec.rb']
+  require "rake/testtask"
+
+  Rake::TestTask.new do |t|
+    t.libs << "test"
+    t.libs << "src"
+    t.test_files = FileList["test/**/*_test.rb"]
+    t.warning = false
     t.verbose = true
   end
 rescue LoadError
@@ -13,39 +15,29 @@ rescue LoadError
 end
 
 begin
-  require 'rubocop/rake_task'
+  require "rubocop/rake_task"
 
-  desc 'Run RuboCop on all files'
-  RuboCop::RakeTask.new do |t|
-    t.patterns = ['**/*.rb']
-    t.formatters = ['clang']
-    t.fail_on_error = true
-    t.options = ['./.rubocop.yml']
-  end
-
-  desc 'Run RuboCop on new git files'
-  RuboCop::RakeTask.new("rubocop:new") do |t|
-    t.formatters = ['clang']
-    t.fail_on_error = true
-    t.options = ['./.rubocop.yml']
-    t.patterns = `git diff --cached --name-only --diff-filter=A -- *.rb`.split("\n")
-  end
+  RuboCop::RakeTask.new
 rescue LoadError
   task(:rubocop) {}
-  task("rubocop:new"){}
 end
 
-task :steep do
-  require 'steep'
-  require 'steep/cli'
+begin
+  task :steep do
+    require "steep"
+    require "steep/cli"
 
-  Steep::CLI.new(argv: ["check"], stdout: $stdout, stderr: $stderr, stdin: $stdin).run
-end
-
-namespace :steep do
-  task :stats do
-    exec %q(bundle exec steep stats --log-level=fatal --format=table')
+    Steep::CLI.new(argv: ["check"], stdout: $stdout, stderr: $stderr, stdin: $stdin).run
   end
+
+  namespace :steep do
+    task :stats do
+      exec "bundle exec steep stats --log-level=fatal --format=table'"
+    end
+  end
+rescue LoadError
+  task(:steep) {}
 end
 
-task default: %w[steep rubocop test]
+
+task default: %i[test rubocop steep]
