@@ -1,8 +1,9 @@
 #!/bin/sh
 
-cd "$(dirname $0)"/..
-rm -rf vendor
-bundle check --path vendor/bundle > /dev/null 2>&1
+cd "$(dirname $0)"
+
+rm -f .bundle/config
 bundle config set --local path 'vendor/bundle'
 bundle config set --local without 'development test'
-bundle install
+bundle check --path vendor/bundle > /dev/null 2>&1 || 
+    bundle install

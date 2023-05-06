@@ -1,10 +1,9 @@
 #!/bin/sh
-# Make sure local dependencies are met.
 
-cd "$(dirname $0)"/..
+cd "$(dirname $0)"
 
 rm -f .bundle/config
 
-bundle check --path .bundle > /dev/null 2>&1 ||
-  bundle install --path=.bundle --with development test
-
+bundle config set --local path '.bundle'
+bundle config set --local with 'development test'
+bundle check --path .bundle > /dev/null 2>&1 || bundle install 

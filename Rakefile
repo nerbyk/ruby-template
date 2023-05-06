@@ -7,19 +7,11 @@ begin
     t.libs << "test"
     t.libs << "src"
     t.test_files = FileList["test/**/*_test.rb"]
-    t.warning = false
-    t.verbose = true
+    t.warning    = false
+    t.verbose    = true
   end
 rescue LoadError
   task(:test) {}
-end
-
-begin
-  require "rubocop/rake_task"
-
-  RuboCop::RakeTask.new
-rescue LoadError
-  task(:rubocop) {}
 end
 
 begin
@@ -27,7 +19,7 @@ begin
     require "steep"
     require "steep/cli"
 
-    Steep::CLI.new(argv: ["check"], stdout: $stdout, stderr: $stderr, stdin: $stdin).run
+    Steep::CLI.new(argv: [ "check" ], stdout: $stdout, stderr: $stderr, stdin: $stdin).run
   end
 
   namespace :steep do
@@ -39,5 +31,4 @@ rescue LoadError
   task(:steep) {}
 end
 
-
-task default: %i[test rubocop steep]
+task default: %i[test steep]
